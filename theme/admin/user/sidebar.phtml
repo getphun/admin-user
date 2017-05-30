@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+    <div class="panel-heading">User Setting</div>
+    <div class="list-group">
+        <?php foreach($sidemenu as $menu): ?>
+            <?php if(!$user->id && $menu->target != 'adminUserSingle') continue; ?>
+        <a href="<?= $this->router->to($menu->target, ['id'=>$user->id]) ?>" class="list-group-item<?= ($menu->active?' active':'') ?>">
+            <?= $menu->label ?>
+        </a>
+        <?php endforeach; ?>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<?php $this->partial('shared/header'); ?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <?php $this->partial('user/sidebar'); ?>
+        </div>
+        
+        <?php
+            $next = $this->req->getQuery('ref') ?? $this->router->to('adminUserSocial', ['id'=>$user->id]);
+        ?>
+        
+        <form class="col-md-9" method="post">
+            <div class="page-header">
+                <div class="pull-right">
+                    <a href="<?= $next ?>" class="btn btn-default">Cancel</a>
+                    <button class="btn btn-primary">Save</button>
+                </div>
+                <h3>Create New <?= $user->fullname ?>'s Social Account</h3>
+            </div>
+            
+            <?= $this->form->field('page'); ?>
+            <?= $this->form->field('vendor'); ?>
+        </form>
+    </div>
+</div>
+
+<?php $this->partial('shared/footer'); ?>

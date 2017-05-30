@@ -1,0 +1,90 @@
+<?php $this->partial('shared/header'); ?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            
+            <form method="get">
+                <?= $this->form->field('q'); ?>
+                <?= $this->form->field('status'); ?>
+                
+                <div class="form-group text-right">
+                    <button class="btn btn-default">Find</button>
+                </div>
+            </form>
+            
+            <div class="panel panel-default">
+                <div class="panel-body">Total result: <?= number_format($total, 0, '.', '.'); ?></div>
+            </div>
+            
+        </div>
+        <?php
+            $reff = $this->req->url;
+            $can_edit = $this->can_i->update_user;
+            $can_remove = $this->can_i->remove_user;
+        ?>
+        <div method="post" class="col-md-9">
+            <div class="page-header">
+                <?php if($this->can_i->create_user): ?>
+                <a href="<?= $this->router->to('adminUserSingle', ['id' => 0], ['ref'=>$reff]); ?>" class="btn btn-primary pull-right">Create New</a>
+                <?php endif; ?>
+                <h3>Users</h3>
+            </div>
+            
+            <?php
+                $statuses = [
+                    0 => 'Deleted',
+                    1 => 'Unverified',
+                    2 => 'Verified',
+                    3 => 'Official'
+                ];
+            ?>
+            
+            <?php if($users): ?>
+            <div class="list-group">
+                <?php foreach($users as $user): ?>
+                <div class="list-group-item">
+                    <?php if($can_edit || $can_remove): ?>
+                    <div class="btn-group btn-group-xs pull-right" role="group">
+                        
+                        <?php if($can_edit): ?>
+                        <a href="<?= $this->router->to('adminUserSingle', ['id'=>$user->id], ['ref'=>$reff]) ?>" class="btn btn-default" title="Edit">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
+                        <?php endif; ?>
+                        
+                        <?php if($can_remove): ?>
+                        <button id="user-<?= $user->id ?>" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-xs">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="user-<?= $user->id ?>">
+                            <li>
+                                <a href="<?= $this->router->to('adminUserRemove', ['id'=>$user->id], ['ref'=>$reff]) ?>" data-confirm="Delete Confirmation" data-confirm-message="Are you sure want to delete this user?" title="Delete" aria-label="Delete">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                </a>
+                            </li>
+                        </ul>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <h4 class="list-group-item-heading"><?= $user->fullname ?> <small><?= $user->name ?></small></h4>
+                    <p class="list-group-item-text small">
+                        <span title="Created"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> <?= date('M d, Y', strtotime($user->created)) ?></span>
+                        &middot;
+                        <span title="Status"><?= $statuses[$user->status] ?></span>
+                    </p>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+            
+            <?php
+                if($pagination)
+                    $this->partial('shared/pagination', ['pagination'=>$pagination]);
+            ?>
+        </div>
+    </div>
+</div>
+
+<?php $this->partial('shared/footer'); ?>
