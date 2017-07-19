@@ -187,13 +187,15 @@ class UserController extends \AdminUserController
             $user_profile_update = [];
             $user_profile_insert = [];
             
-            foreach($user_properties as $field => $args){
-                if(!isset($form->$field))
-                    continue;
-                if(!isset($user_prop_current[$field]))
-                    $user_profile_insert[$field] = $form->$field;
-                elseif($user_prop_current[$field] != $form->$field)
-                    $user_profile_update[$field] = $form->$field;
+            if($user_properties){
+                foreach($user_properties as $field => $args){
+                    if(!isset($form->$field))
+                        continue;
+                    if(!isset($user_prop_current[$field]))
+                        $user_profile_insert[$field] = $form->$field;
+                    elseif($user_prop_current[$field] != $form->$field)
+                        $user_profile_update[$field] = $form->$field;
+                }
             }
             
             if($user_profile_insert){
