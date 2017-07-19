@@ -227,7 +227,6 @@ return [
             'status' => [
                 'type'      => 'select',
                 'label'     => 'Status',
-                'nolabel'   => true,
                 'options'   => [
                     1   => 'Unverified',
                     2   => 'Verified',
