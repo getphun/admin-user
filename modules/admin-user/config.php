@@ -38,6 +38,10 @@ return [
                 'rule' => '/user',
                 'handler' => 'AdminUser\\Controller\\User::index'
             ],
+            'adminUserFilter' => [
+                'rule' => '/user/filter',
+                'handler' => 'AdminUser\\Controller\\User::filter'
+            ],
             'adminUserPassword' => [
                 'rule' => '/user/:id/password',
                 'handler' => 'AdminUser\\Controller\\User::password'
@@ -47,6 +51,7 @@ return [
                 'handler' => 'AdminUser\\Controller\\User::remove'
             ],
             'adminUserSingle' => [
+                'priority' => 1,
                 'rule' => '/user/:id',
                 'handler' => 'AdminUser\\Controller\\User::profile'
             ],
