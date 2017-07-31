@@ -64,7 +64,7 @@
                         <ul class="dropdown-menu" aria-labelledby="user-<?= $user->id ?>">
                             <?php if($inject_menu): ?>
                                 <?php $menu_exists = false; ?>
-                                <?php foreach($inject_menu as $menu): ?>
+                                <?php foreach($inject_menu as $label => $menu): ?>
                                     <?php if($this->can_i->{$menu['perms']}): ?>
                                         <?php $menu_exists = true; ?>
                                         <li>
@@ -82,7 +82,7 @@
                                                 <?php if(isset($menu['icon'])): ?>
                                                 <i class="fa fa-<?= $menu['icon'] ?>"></i>
                                                 <?php endif; ?>
-                                                <?= $menu['label'] ?>
+                                                <?= $label ?>
                                             </a>
                                         </li>
                                     <?php endif; ?>
