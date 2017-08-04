@@ -247,8 +247,9 @@ class UserController extends \AdminUserController
             return $this->next();
         
         if($user->status != 0)
-            User::set(['status'=>0], $user->id);
+            User::set(['status'=>0, 'name'=>'#'.$user->name], $user->id);
         
+        $this->fire('user:deleted', $user);
         $this->next();
     }
 }
