@@ -252,4 +252,19 @@ class UserController extends \AdminUserController
         $this->fire('user:deleted', $user);
         $this->next();
     }
+    
+    public function switchAction(){
+        if(!$this->user->login)
+            return $this->loginFirst('adminLogin');
+        if(!$this->can_i->update_user_session)
+            return $this->show404();
+        
+        $id = $this->param->id;
+        $user = User::get($id, false);
+        if(!$user || $user->id == 1 || $user->status == 0)
+            return $this->show404();
+        
+        USession::set(['user'=>$user->id], $this->user->session->id);
+        $this->next();
+    }
 }

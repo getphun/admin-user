@@ -20,12 +20,23 @@
         </div>
         <?php
             $reff = $this->req->url;
-            $can_edit = $this->can_i->update_user;
+            $can_edit   = $this->can_i->update_user;
             $can_remove = $this->can_i->remove_user;
+            $can_switch = $this->can_i->update_user_session;
             
+            $inject_menu_exists = false;
             $inject_menu = $this->config->{'admin-user'};
-            if($inject_menu)
+            if($inject_menu){
                 $inject_menu = $inject_menu['inject-menu'] ?? null;
+            
+                foreach($inject_menu as $label => $menu){
+                    if($this->can_i->{$menu['perms']}){
+                        $inject_menu_exists = true;
+                        break;
+                    }
+                }
+            }
+            
         ?>
         <div method="post" class="col-md-9">
             <div class="page-header">
@@ -57,13 +68,22 @@
                         </a>
                         <?php endif; ?>
                         
-                        <?php if($can_remove): ?>
+                        <?php if($can_remove || $inject_menu_exists || $can_switch): ?>
                         <button id="user-<?= $user->id ?>" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-xs">
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="user-<?= $user->id ?>">
+                            <?php $menu_exists = $can_switch; ?>
+                            
+                            <?php if($can_switch): ?>
+                                <li>
+                                    <a href="<?= $this->router->to('adminUserSwitch', ['id'=>$user->id], ['ref'=>$reff]) ?>" title="Login as current user">
+                                        <i class="fa fa-retweet" aria-hidden="true"></i> Login As
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+                            
                             <?php if($inject_menu): ?>
-                                <?php $menu_exists = false; ?>
                                 <?php foreach($inject_menu as $label => $menu): ?>
                                     <?php if($this->can_i->{$menu['perms']}): ?>
                                         <?php $menu_exists = true; ?>
@@ -87,10 +107,12 @@
                                         </li>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
-                                <?php if($menu_exists): ?>
-                                <li class="divider" role="separator"></li>
-                                <?php endif; ?>
                             <?php endif; ?>
+                            
+                            <?php if($menu_exists && $can_remove): ?>
+                            <li class="divider" role="separator"></li>
+                            <?php endif; ?>
+                                
                             <li>
                                 <a href="<?= $this->router->to('adminUserRemove', ['id'=>$user->id], ['ref'=>$reff]) ?>" data-confirm="Delete Confirmation" data-confirm-message="Are you sure want to delete this user?" title="Delete" aria-label="Delete">
                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete

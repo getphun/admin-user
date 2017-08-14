@@ -56,6 +56,11 @@ return [
                 'handler' => 'AdminUser\\Controller\\User::profile'
             ],
             
+            'adminUserSwitch' => [
+                'rule' => '/user/:id/switch',
+                'handler' => 'AdminUser\\Controller\\User::switch'
+            ],
+            
             'adminUserPhone' => [
                 'rule' => '/user/:id/phone',
                 'handler' => 'AdminUser\\Controller\\Phone::index'
