@@ -17,7 +17,8 @@ return [
         'theme/admin/static/css/admin-user.css' => [ 'install', 'remove', 'update' ]
     ],
     '__dependencies' => [
-        'admin'
+        'admin',
+        '/slug-history'
     ],
     '_services' => [],
     '_autoload' => [

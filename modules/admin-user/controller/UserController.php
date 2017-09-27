@@ -182,6 +182,7 @@ class UserController extends \AdminUserController
         
         // user object
         $udiff = [];
+        $oname = $user->name;
         if(isset($form->name)){
             $form->name = strtolower($form->name);
             if($form->name != $user->name)
@@ -198,6 +199,9 @@ class UserController extends \AdminUserController
                 $user->id = User::create($udiff);
             }else{
                 User::set($udiff, $id);
+                
+                if(isset($udiff['name']) && module_exists('slug-history'))
+                    $this->slug->create('user', $id, $oname, $udiff['name']);
             }
         }
         
