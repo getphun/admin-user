@@ -7,9 +7,11 @@
         </div>
         <form method="post" class="col-md-9">
             <div class="page-header">
+                <?php if(!$readonly): ?>
                 <div class="pull-right">
                     <button class="btn btn-primary">Save</button>
                 </div>
+                <?php endif; ?>
                 <h3><?= $user->fullname ?>'s Permissions</h3>
             </div>
             
@@ -20,7 +22,7 @@
             <?php endif; ?>
             
             
-            <?php if($all_roles): ?>
+            <?php if($all_roles && !$readonly): ?>
             <div class="text-right">
                 <div class="btn-group btn-group-xs" role="group">
                     <button class="btn btn-default role-unselector" type="button" title="Select none">
@@ -37,14 +39,22 @@
             </div>
             <?php endif; ?>
             
+            <?php if($readonly): ?>
+                <div class="alert alert-info">
+                    Current user using <code>role</code> for permission filters.
+                </div>
+            <?php endif; ?>
+            
             <?php if($grouped_perms): ?>
                 <?php foreach($grouped_perms as $group => $perms): ?>
                     <?php $id = md5($group); ?>
                 <h4>
-                    <div class="btn-group btn-group-xs">
-                        <button class="btn btn-default group-selector" data-target="#group-<?= $id ?>" title="Select All" type="button"><i class="fa fa-check-square-o" aria-hidden="true"></i></button>
-                        <button class="btn btn-default group-unselector" data-target="#group-<?= $id ?>" title="Unselect All" type="button"><i class="fa fa-square-o" aria-hidden="true"></i></button>
-                    </div>
+                    <?php if(!$readonly): ?>
+                        <div class="btn-group btn-group-xs">
+                            <button class="btn btn-default group-selector" data-target="#group-<?= $id ?>" title="Select All" type="button"><i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+                            <button class="btn btn-default group-unselector" data-target="#group-<?= $id ?>" title="Unselect All" type="button"><i class="fa fa-square-o" aria-hidden="true"></i></button>
+                        </div>
+                    <?php endif; ?>
                     <?= $group ?>
                 </h4>
                 <table class="table table-hover" id="group-<?= $id ?>">
@@ -53,7 +63,7 @@
                         <tr>
                             <td>
                             <div class="checkbox checkbox-plain">
-                                <input type="checkbox" class="item-checkbox" name="<?= $perm->name ?>" id="perm-<?= $perm->id ?>" data-group="<?= $perm->group ?>" data-role="<?= $perm->role ?>"<?= (in_array($perm->id, $user_perms)?' checked="checked"':'') ?>>
+                                <input type="checkbox" class="item-checkbox" name="<?= $perm->name ?>" id="perm-<?= $perm->id ?>" data-group="<?= $perm->group ?>" data-role="<?= $perm->role ?>"<?= (in_array($perm->id, $user_perms)?' checked="checked"':'') ?><?= ($readonly?' disabled="disabled"':'') ?>>
                                 <label for="perm-<?= $perm->id ?>"><?= $perm->name ?></label>
                             </div>
                             </td>

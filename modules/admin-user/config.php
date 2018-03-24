@@ -245,6 +245,15 @@ return [
                 ],
                 'rules'     => [],
                 'form-position' => 'left'
+            ],
+            'role' => [
+                'type'      => 'select',
+                'label'     => 'Role',
+                'options'   => [
+                    '' => '_User Permissions_'
+                ],
+                'rules'     => [],
+                'form-position' => 'left'
             ]
         ],
         

@@ -20,6 +20,18 @@ return [
                 ]
             ]
         ]
+    ],
+    
+    // jika menggunakan role based user, tambahkan daftar role seperti di bawah:
+    'form' => [
+        'admin-user-profile' => [
+            'role' => [
+                'options' => [
+                    'administrator' => 'Administrator',
+                    'operator' => 'Operator'
+                ]
+            ]
+        ]
     ]
 ];
 ```

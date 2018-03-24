@@ -192,6 +192,8 @@ class UserController extends \AdminUserController
             $udiff['fullname'] = $user->fullname = $form->fullname;
         if(isset($form->status) && $user->status != $form->status)
             $udiff['status'] = $user->status = $form->status;
+        if(isset($form->role) && $user->role != $form->role)
+            $udiff['role'] = $user->role = $form->role;
         
         if($user){
             if(!$id){

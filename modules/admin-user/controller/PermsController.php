@@ -42,6 +42,8 @@ class PermsController extends \AdminUserController
         $params['success']      = false;
         $params['user']         = $user;
         
+        $params['readonly']     = (bool)$user->role;
+        
         $params['grouped_perms'] = [];
         $params['all_roles']     = [];
         $params['user_perms']    = [];
@@ -88,7 +90,7 @@ class PermsController extends \AdminUserController
             $params['all_roles'] = $all_roles;
         }
         
-        if($this->req->method == 'POST'){
+        if($this->req->method == 'POST' && !$user->role){
             $to_insert = [];
             $to_remove = [];
             
