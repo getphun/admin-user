@@ -145,6 +145,7 @@ class UserController extends \AdminUserController
             $user->name = '';
             $user->fullname = '';
             $user->status = 1;
+            $user->role = '';
         }
         
         $params = $this->_defaultParams();
